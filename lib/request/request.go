@@ -11,7 +11,7 @@ import (
 func Get(url string) (response interface{}) {
 	exec.Trying(3, func() {
 		protocol := net.Protocol{}
-		err := request.Create(url).GetJSON(&protocol)
+		err := request.New(url).GetJSON(&protocol)
 		if err != nil {
 			panic(err)
 		}
