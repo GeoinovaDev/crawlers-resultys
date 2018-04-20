@@ -2,19 +2,27 @@ package guiamais
 
 import (
 	"git.resultys.com.br/lib/lower/str"
-	"git.resultys.com.br/sdk/crawlers-golang/lib/convert"
 	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
 )
 
+// Client struct
+type Client struct {
+	IP string
+}
+
+// New cria um client
+func New(IP string) *Client {
+	return &Client{IP: IP}
+}
+
 // SearchTelefones pesquisa telefones no guiamas
-// Retorna array de telefones
-func SearchTelefones(nome string, cidade string, estado string) []string {
-	telefones := []string{}
+// Retorna array de telefones e se ocorreu bloqueio
+func (client *Client) SearchTelefones(nome string, cidade string, estado string) (arr []string, isBlock bool) {
+	url := client.createURL(str.Format("/search?nome={0}&cidade={1}&estado={2}", nome, cidade, estado))
 
-	response := request.Get(str.Format("http://35.198.20.221/guiamais/search?nome={0}&cidade={1}&estado={2}", nome, cidade, estado))
-	if response != nil {
-		telefones = convert.ArrayInterfaceToArrayString(response.([]interface{}))
-	}
+	return request.GetArrayString(url)
+}
 
-	return telefones
+func (client *Client) createURL(params string) string {
+	return str.Format("http://{0}/guiamais{1}", client.IP, params)
 }
