@@ -25,6 +25,10 @@ func (client *Client) GetDados(url string) *facebook.Page {
 		return nil
 	}
 
+	if response == nil {
+		return nil
+	}
+
 	page.PopuleFromMap(response.(map[string]interface{}))
 
 	return page
