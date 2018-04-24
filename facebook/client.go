@@ -17,12 +17,12 @@ func New(ip string) *Client {
 }
 
 // GetDados busca informações na pagina da empresa no facebook
-func (client *Client) GetDados(url string) facebook.Page {
-	page := facebook.Page{}
+func (client *Client) GetDados(url string) *facebook.Page {
+	page := &facebook.Page{}
 
 	response, isBlock := request.Get(client.createURL(url))
 	if isBlock {
-
+		return nil
 	}
 
 	page.PopuleFromMap(response.(map[string]interface{}))
