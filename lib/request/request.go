@@ -11,7 +11,7 @@ import (
 // Return array string e error
 func GetArrayString(url string) (arr []string, isBlock bool) {
 	response, isBlock := Get(url)
-	
+
 	if response != nil {
 		arr = convert.ArrayInterfaceToArrayString(response.([]interface{}))
 	}

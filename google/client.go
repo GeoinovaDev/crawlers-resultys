@@ -19,7 +19,6 @@ func New(IP string) *Client {
 // Retorna array de telefones e se ocorreu bloqueio
 func (client *Client) SearchTelefones(nome string, cidade string) (arr []string, isBlock bool) {
 	url := client.createURL(str.Format("/phone?nome={0}&cidade={1}", nome, cidade))
-
 	return request.GetArrayString(url)
 }
 
