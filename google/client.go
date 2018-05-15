@@ -1,6 +1,7 @@
 package google
 
 import (
+	"git.resultys.com.br/lib/lower/convert/encode"
 	"git.resultys.com.br/lib/lower/str"
 	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
 )
@@ -13,6 +14,13 @@ type Client struct {
 // New cria um client
 func New(IP string) *Client {
 	return &Client{IP: IP}
+}
+
+// IsContador ...
+func (client *Client) IsContador(telefone string) (bool, bool) {
+	url := str.Format("http://{0}/contador/verify?telefone={1}", client.IP, encode.URL(telefone))
+	response, isBlock := request.Get(url)
+	return response.(bool), isBlock
 }
 
 // SearchTelefones pesquisa telefones na pagina principal do google
