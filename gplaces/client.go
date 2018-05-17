@@ -1,8 +1,10 @@
 package gplaces
 
 import (
+	"git.resultys.com.br/lib/lower/exec"
+	"git.resultys.com.br/lib/lower/net/request"
 	"git.resultys.com.br/lib/lower/str"
-	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
+	"git.resultys.com.br/motor/models/gplaces"
 )
 
 // Client struct
@@ -10,18 +12,44 @@ type Client struct {
 	IP string
 }
 
-// New cria um client
+type protocol struct {
+	Status  string           `json:"status"`
+	Company *gplaces.Company `json:"data"`
+	Message string           `json:"message"`
+}
+
+// New ...
 func New(IP string) *Client {
 	return &Client{IP: IP}
 }
 
-// SearchTelefones pesquisa telefones no google places
-// Retorna array de telefones e se ocorreu bloqueio
-func (client *Client) SearchTelefones(nome string, cep, string, cidade string, language string) (arr []string, isBlock bool) {
-	url := client.createURL(str.Format("/phone?nome={0}&cidade={1}&cep={2}&language={3}", nome, cidade, cep, language))
-	return request.GetArrayString(url)
+// Search ...
+func (client *Client) Search(nome string, cidade string, cep string, language string) (company *gplaces.Company) {
+	exec.Trying(3, func() {
+		url := client.createURL(str.Format("/search?nome={0}&cidade={1}&cep={2}&language={3}", nome, cidade, cep, language))
+		protocol := protocol{}
+
+		err := request.New(url).GetJSON(&protocol)
+		if err != nil {
+			panic(err)
+		}
+
+		if protocol.Status != "ok" {
+			panic(protocol.Message)
+		}
+
+		company = protocol.Company
+	}, func() {
+
+	}, func() {
+
+	}, func() {
+
+	})
+
+	return
 }
 
 func (client *Client) createURL(params string) string {
-	return str.Format("http://{0}/gplaces/search{1}", client.IP, params)
+	return str.Format("http://{0}/google/places{1}", client.IP, params)
 }
