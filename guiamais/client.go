@@ -1,6 +1,7 @@
 package guiamais
 
 import (
+	"git.resultys.com.br/lib/lower/convert/encode"
 	"git.resultys.com.br/lib/lower/str"
 	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
 )
@@ -18,6 +19,10 @@ func New(IP string) *Client {
 // SearchTelefones pesquisa telefones no guiamas
 // Retorna array de telefones e se ocorreu bloqueio
 func (client *Client) SearchTelefones(nome string, cidade string, estado string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	cidade = encode.URL(cidade)
+	estado = encode.URL(estado)
+
 	url := client.createURL(str.Format("/search?nome={0}&cidade={1}&estado={2}", nome, cidade, estado))
 
 	return request.GetArrayString(url)

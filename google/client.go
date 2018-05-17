@@ -26,6 +26,11 @@ func (client *Client) IsContador(telefone string) (bool, bool) {
 // SearchTelefones pesquisa telefones na pagina principal do google
 // Retorna array de telefones e se ocorreu bloqueio
 func (client *Client) SearchTelefones(nome string, cidade string, cep string, language string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	cidade = encode.URL(cidade)
+	cep = encode.URL(cep)
+	language = encode.URL(language)
+
 	url := client.createURL(str.Format("/phones?nome={0}&cidade={1}&cep={2}&language={3}", nome, cidade, cep, language))
 
 	return request.GetArrayString(url)
@@ -34,6 +39,9 @@ func (client *Client) SearchTelefones(nome string, cidade string, cep string, la
 // SearchFacebook pesquisa todos os links do facebook na pagina principal do google
 // Return array string e se ocorreu bloqueio
 func (client *Client) SearchFacebook(nome string, cidade string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	cidade = encode.URL(cidade)
+
 	url := client.createURL(str.Format("/facebook?nome={0}&cidade={1}", nome, cidade))
 
 	return request.GetArrayString(url)
@@ -42,6 +50,9 @@ func (client *Client) SearchFacebook(nome string, cidade string) (arr []string, 
 // SearchTwitter pesquisa todos os links do twitter na pagina principal do google
 // Return array string e se ocorreu bloqueio
 func (client *Client) SearchTwitter(nome string, cidade string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	cidade = encode.URL(cidade)
+
 	url := client.createURL(str.Format("/twitter?nome={0}&cidade={1}", nome, cidade))
 
 	return request.GetArrayString(url)
@@ -50,6 +61,9 @@ func (client *Client) SearchTwitter(nome string, cidade string) (arr []string, i
 // SearchSite pesquisa todos os links do site na pagina principal do google
 // Return array string e se ocorreu bloqueio
 func (client *Client) SearchSite(nome string, cidade string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	cidade = encode.URL(cidade)
+
 	url := client.createURL(str.Format("/site?nome={0}&cidade={1}", nome, cidade))
 
 	return request.GetArrayString(url)
@@ -58,6 +72,9 @@ func (client *Client) SearchSite(nome string, cidade string) (arr []string, isBl
 // SearchLinkedin pesquisa todos os links do twitter na pagina principal do google
 // Return array string e se ocorreu bloqueio
 func (client *Client) SearchLinkedin(nome string, cidade string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	cidade = encode.URL(cidade)
+
 	url := client.createURL(str.Format("/linkedin?nome={0}&cidade={1}", nome, cidade))
 
 	return request.GetArrayString(url)

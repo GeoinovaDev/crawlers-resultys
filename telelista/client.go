@@ -1,6 +1,7 @@
 package telelista
 
 import (
+	"git.resultys.com.br/lib/lower/convert/encode"
 	"git.resultys.com.br/lib/lower/str"
 	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
 )
@@ -18,6 +19,9 @@ func New(IP string) *Client {
 // SearchTelefones pesquisa telefones no telelista
 // Retorna array de telefones e se ocorreu bloqueio
 func (client *Client) SearchTelefones(nome string, estado string) (arr []string, isBlock bool) {
+	nome = encode.URL(nome)
+	estado = encode.URL(estado)
+
 	url := client.createURL(str.Format("/search?nome={0}&estado={1}", nome, estado))
 
 	return request.GetArrayString(url)
