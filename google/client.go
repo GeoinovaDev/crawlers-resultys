@@ -31,6 +31,10 @@ func (client *Client) IsContador(telefone string) (bool, bool) {
 	telefone = encode.URL(telefone)
 	url := client.createURL("contador", str.Format("/verify?telefone={0}", telefone))
 	response, isBlock := request.Get(url)
+	if response == nil{
+		return false, false
+	}
+	
 	return response.(bool), isBlock
 }
 
