@@ -31,10 +31,10 @@ func Get(url string) (response interface{}, isBlock bool) {
 			panic(err)
 		}
 
-		if protocol.Code == 450 {
+		if protocol.Code == 101 {
 			isBlock = true
 			response = nil
-			panic("bloqueado")
+			return
 		}
 
 		isBlock = false

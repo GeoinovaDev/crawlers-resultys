@@ -24,6 +24,42 @@ func New(IP string) *Client {
 	return &Client{IP: IP}
 }
 
+// Radar ...
+func (client *Client) Radar(nome string, cep string, keyword string, lat string, lng string, radius string, language string) (company *gplaces.Company) {
+	exec.Trying(3, func() {
+		nome := encode.URL(nome)
+		cep := encode.URL(cep)
+		keyword := encode.URL(keyword)
+		lat := encode.URL(lat)
+		lng := encode.URL(lng)
+		radius := encode.URL(radius)
+		lang := encode.URL(language)
+
+		url := str.Format("/radar?nome={0}&cep={1}&keyword={2}&lat={3}&lng={4}&radius={5}&language={6}", nome, cep, keyword, lat, lng, radius, lang)
+		url = client.createURL(url)
+		protocol := protocol{}
+
+		err := request.New(url).GetJSON(&protocol)
+		if err != nil {
+			panic(err)
+		}
+
+		if protocol.Status != "ok" {
+			panic(protocol.Message)
+		}
+
+		company = protocol.Company
+	}, func() {
+
+	}, func() {
+
+	}, func() {
+
+	})
+
+	return
+}
+
 // Search ...
 func (client *Client) Search(nome string, cidade string, cep string, language string) (company *gplaces.Company) {
 	exec.Trying(3, func() {
