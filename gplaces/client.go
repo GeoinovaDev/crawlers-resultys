@@ -17,6 +17,7 @@ type protocol struct {
 	Status  string           `json:"status"`
 	Company *gplaces.Company `json:"data"`
 	Message string           `json:"message"`
+	Code    int              `json:"code"`
 }
 
 // New ...
@@ -72,11 +73,10 @@ func (client *Client) Search(nome string, cidade string, cep string, language st
 			panic(err)
 		}
 
-		if protocol.Status != "ok" {
-			panic(protocol.Message)
+		if protocol.Code == 200 {
+			company = protocol.Company
 		}
 
-		company = protocol.Company
 	}, func() {
 
 	}, func() {
