@@ -1,6 +1,8 @@
 package google
 
 import (
+	"strconv"
+
 	"git.resultys.com.br/lib/lower/convert/encode"
 	"git.resultys.com.br/lib/lower/str"
 	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
@@ -8,12 +10,14 @@ import (
 
 // Client struct
 type Client struct {
-	IP string
+	IP      string
+	proxy   string
+	timeout int
 }
 
 // New cria um client
-func New(IP string) *Client {
-	return &Client{IP: IP}
+func New(IP string, proxy string, timeout int) *Client {
+	return &Client{IP: IP, proxy: proxy, timeout: timeout}
 }
 
 // Counter ...
@@ -31,14 +35,14 @@ func (client *Client) IsContador(telefone string) (bool, bool) {
 	telefone = encode.URL(telefone)
 	url := client.createURL("contador", str.Format("/verify?telefone={0}", telefone))
 	response, isBlock := request.Get(url)
-	if isBlock { 
+	if isBlock {
 		return false, true
 	}
 
-	if response == nil{
+	if response == nil {
 		return false, false
 	}
-	
+
 	return response.(bool), isBlock
 }
 
@@ -100,5 +104,5 @@ func (client *Client) SearchLinkedin(nome string, cidade string) (arr []string, 
 }
 
 func (client *Client) createURL(service string, params string) string {
-	return str.Format("http://{0}/google/{1}{2}", client.IP, service, params)
+	return str.Format("http://{0}/google/{1}{2}&proxy={3}&timeout={4}", client.IP, service, params, client.proxy, strconv.Itoa(client.timeout))
 }
