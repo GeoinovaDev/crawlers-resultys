@@ -10,7 +10,8 @@ import (
 
 // Client struct
 type Client struct {
-	IP string
+	IP      string
+	timeout int
 }
 
 type protocol struct {
@@ -21,8 +22,8 @@ type protocol struct {
 }
 
 // New ...
-func New(IP string) *Client {
-	return &Client{IP: IP}
+func New(IP string, timeout int) *Client {
+	return &Client{IP: IP, timeout: timeout}
 }
 
 // Radar ...
@@ -40,7 +41,7 @@ func (client *Client) Radar(nome string, cep string, keyword string, lat string,
 		url = client.createURL(url)
 		protocol := protocol{}
 
-		err := request.New(url).GetJSON(&protocol)
+		err := request.New(url).SetTimeout(client.timeout).GetJSON(&protocol)
 		if err != nil {
 			panic(err)
 		}
@@ -68,7 +69,7 @@ func (client *Client) Search(nome string, cidade string, cep string, language st
 		url = client.createURL(url)
 		protocol := protocol{}
 
-		err := request.New(url).GetJSON(&protocol)
+		err := request.New(url).SetTimeout(client.timeout).GetJSON(&protocol)
 		if err != nil {
 			panic(err)
 		}

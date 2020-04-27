@@ -20,7 +20,7 @@ func New(ip string) *Client {
 func (client *Client) GetDados(url string) *facebook.Page {
 	page := &facebook.Page{}
 
-	response, isBlock := request.Get(client.createURL(url))
+	response, isBlock := request.Get(client.createURL(url), 5)
 	if isBlock {
 		return nil
 	}

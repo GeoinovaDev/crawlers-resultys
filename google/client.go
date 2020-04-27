@@ -27,14 +27,14 @@ func (client *Client) Counter(nome string, telefone string) ([]Count, bool) {
 
 	url := client.createURL("search", str.Format("/counter?keyword={0}&sentence={1}", telefone, nome))
 
-	return getCounter(url)
+	return getCounter(url, client.timeout+1)
 }
 
 // IsContador ...
 func (client *Client) IsContador(telefone string) (bool, bool) {
 	telefone = encode.URL(telefone)
 	url := client.createURL("contador", str.Format("/verify?telefone={0}", telefone))
-	response, isBlock := request.Get(url)
+	response, isBlock := request.Get(url, client.timeout+1)
 	if isBlock {
 		return false, true
 	}
@@ -56,7 +56,7 @@ func (client *Client) SearchTelefones(nome string, cidade string, cep string, la
 
 	url := client.createURL("search", str.Format("/phones?nome={0}&cidade={1}&cep={2}&language={3}", nome, cidade, cep, language))
 
-	return request.GetArrayString(url)
+	return request.GetArrayString(url, client.timeout+1)
 }
 
 // SearchFacebook pesquisa todos os links do facebook na pagina principal do google
@@ -67,7 +67,7 @@ func (client *Client) SearchFacebook(nome string, cidade string) (arr []string, 
 
 	url := client.createURL("search", str.Format("/facebook?nome={0}&cidade={1}", nome, cidade))
 
-	return request.GetArrayString(url)
+	return request.GetArrayString(url, client.timeout+1)
 }
 
 // SearchTwitter pesquisa todos os links do twitter na pagina principal do google
@@ -78,7 +78,7 @@ func (client *Client) SearchTwitter(nome string, cidade string) (arr []string, i
 
 	url := client.createURL("search", str.Format("/twitter?nome={0}&cidade={1}", nome, cidade))
 
-	return request.GetArrayString(url)
+	return request.GetArrayString(url, client.timeout+1)
 }
 
 // SearchSite pesquisa todos os links do site na pagina principal do google
@@ -89,7 +89,7 @@ func (client *Client) SearchSite(nome string, cidade string) (arr []string, isBl
 
 	url := client.createURL("search", str.Format("/site?nome={0}&cidade={1}", nome, cidade))
 
-	return request.GetArrayString(url)
+	return request.GetArrayString(url, client.timeout+1)
 }
 
 // SearchLinkedin pesquisa todos os links do twitter na pagina principal do google
@@ -100,7 +100,7 @@ func (client *Client) SearchLinkedin(nome string, cidade string) (arr []string, 
 
 	url := client.createURL("search", str.Format("/linkedin?nome={0}&cidade={1}", nome, cidade))
 
-	return request.GetArrayString(url)
+	return request.GetArrayString(url, client.timeout+1)
 }
 
 func (client *Client) createURL(service string, params string) string {

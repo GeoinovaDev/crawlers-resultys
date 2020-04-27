@@ -7,8 +7,8 @@ import (
 
 // Count ...
 type Count struct {
-	Word  string    `json:"word"`
-	Total int `json:"total"`
+	Word  string `json:"word"`
+	Total int    `json:"total"`
 }
 
 type protocolCounter struct {
@@ -18,10 +18,10 @@ type protocolCounter struct {
 	Message string  `json:"message"`
 }
 
-func getCounter(url string) (counters []Count, isBlock bool) {
+func getCounter(url string, timeout int) (counters []Count, isBlock bool) {
 	exec.Trying(3, func() {
 		protocol := protocolCounter{}
-		err := request.New(url).GetJSON(&protocol)
+		err := request.New(url).SetTimeout(timeout).GetJSON(&protocol)
 		if err != nil {
 			isBlock = false
 			counters = nil

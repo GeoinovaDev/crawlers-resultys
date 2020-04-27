@@ -24,7 +24,7 @@ func (client *Client) SearchTelefones(nome string, estado string) (arr []string,
 
 	url := client.createURL(str.Format("/search?nome={0}&estado={1}", nome, estado))
 
-	return request.GetArrayString(url)
+	return request.GetArrayString(url, 5)
 }
 
 func (client *Client) createURL(params string) string {
