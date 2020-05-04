@@ -2,7 +2,9 @@ package gplaces
 
 import (
 	"git.resultys.com.br/lib/lower/convert/encode"
+	"git.resultys.com.br/lib/lower/exception"
 	"git.resultys.com.br/lib/lower/exec"
+	"git.resultys.com.br/lib/lower/exec/try"
 	"git.resultys.com.br/lib/lower/net/request"
 	"git.resultys.com.br/lib/lower/str"
 	"git.resultys.com.br/motor/models/gplaces"
@@ -64,7 +66,7 @@ func (client *Client) Radar(nome string, cep string, keyword string, lat string,
 
 // Search ...
 func (client *Client) Search(nome string, cidade string, cep string, language string) (company *gplaces.Company) {
-	exec.Trying(3, func() {
+	try.New().SetTentativas(3).Run(func() {
 		url := str.Format("/search?nome={0}&cidade={1}&cep={2}&language={3}", encode.URL(nome), encode.URL(cidade), encode.URL(cep), encode.URL(language))
 		url = client.createURL(url)
 		protocol := protocol{}
@@ -77,13 +79,8 @@ func (client *Client) Search(nome string, cidade string, cep string, language st
 		if protocol.Code == 200 {
 			company = protocol.Company
 		}
-
-	}, func() {
-
-	}, func() {
-
-	}, func() {
-
+	}).Catch(func(msg string) {
+		exception.Raise(msg, exception.WARNING)
 	})
 
 	return

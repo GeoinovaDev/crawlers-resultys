@@ -1,7 +1,8 @@
 package request
 
 import (
-	"git.resultys.com.br/lib/lower/exec"
+	"git.resultys.com.br/lib/lower/exception"
+	"git.resultys.com.br/lib/lower/exec/try"
 	"git.resultys.com.br/lib/lower/net"
 	"git.resultys.com.br/lib/lower/net/request"
 	"git.resultys.com.br/sdk/crawlers-golang/lib/convert"
@@ -22,7 +23,7 @@ func GetArrayString(url string, timeout int) (arr []string, isBlock bool) {
 // Get executa uma requisição get
 // Retorna um json ou nil
 func Get(url string, timeout int) (response interface{}, isBlock bool) {
-	exec.Trying(3, func() {
+	try.New().SetTentativas(3).Run(func() {
 		protocol := net.Protocol{}
 		err := request.New(url).GetJSON(&protocol)
 		if err != nil {
@@ -39,12 +40,8 @@ func Get(url string, timeout int) (response interface{}, isBlock bool) {
 
 		isBlock = false
 		response = protocol.Data
-	}, func() {
-
-	}, func() {
-
-	}, func() {
-
+	}).Catch(func(err string) {
+		exception.Raise(err, exception.WARNING)
 	})
 
 	return

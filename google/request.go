@@ -1,7 +1,8 @@
 package google
 
 import (
-	"git.resultys.com.br/lib/lower/exec"
+	"git.resultys.com.br/lib/lower/exception"
+	"git.resultys.com.br/lib/lower/exec/try"
 	"git.resultys.com.br/lib/lower/net/request"
 )
 
@@ -19,7 +20,7 @@ type protocolCounter struct {
 }
 
 func getCounter(url string, timeout int) (counters []Count, isBlock bool) {
-	exec.Trying(3, func() {
+	try.New().SetTentativas(3).Run(func() {
 		protocol := protocolCounter{}
 		err := request.New(url).SetTimeout(timeout).GetJSON(&protocol)
 		if err != nil {
@@ -36,12 +37,8 @@ func getCounter(url string, timeout int) (counters []Count, isBlock bool) {
 
 		isBlock = false
 		counters = protocol.Data
-	}, func() {
-
-	}, func() {
-
-	}, func() {
-
+	}).Catch(func(msg string) {
+		exception.Raise(msg, exception.WARNING)
 	})
 
 	return
