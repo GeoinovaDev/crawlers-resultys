@@ -31,16 +31,16 @@ func (client *Client) Counter(nome string, telefone string) ([]Count, int, strin
 }
 
 // IsContador ...
-func (client *Client) IsContador(telefone string) (bool, bool, string) {
+func (client *Client) IsContador(telefone string) (bool, int, string) {
 	telefone = encode.URL(telefone)
 	url := client.createURL("contador", str.Format("/verify?telefone={0}", telefone))
 	proto := request.Get(url, client.timeout+1)
 
 	if proto.Code == 200 {
-		return proto.Data.(bool), false, ""
+		return proto.Data.(bool), proto.Code, ""
 	}
 
-	return false, true, proto.Message
+	return false, proto.Code, proto.Message
 }
 
 // SearchTelefones pesquisa telefones na pagina principal do google
