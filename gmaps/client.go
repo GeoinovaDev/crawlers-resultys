@@ -7,6 +7,7 @@ import (
 	"git.resultys.com.br/lib/lower/convert/encode"
 	"git.resultys.com.br/lib/lower/net/request"
 	"git.resultys.com.br/lib/lower/str"
+	"git.resultys.com.br/motor/models/gmaps"
 )
 
 // Client ...
@@ -22,7 +23,7 @@ func New(IP string, proxy string, timeout int) *Client {
 }
 
 // Search ...
-func (c *Client) Search(nome string, cidade string) (Company, int, string) {
+func (c *Client) Search(nome string, cidade string) (gmaps.Company, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 
