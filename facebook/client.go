@@ -20,16 +20,10 @@ func New(ip string) *Client {
 func (client *Client) GetDados(url string) *facebook.Page {
 	page := &facebook.Page{}
 
-	response, isBlock := request.Get(client.createURL(url), 5)
-	if isBlock {
-		return nil
+	proto := request.Get(client.createURL(url), 5)
+	if proto.Code == 200 {
+		page.PopuleFromMap(proto.Data.(map[string]interface{}))
 	}
-
-	if response == nil {
-		return nil
-	}
-
-	page.PopuleFromMap(response.(map[string]interface{}))
 
 	return page
 }

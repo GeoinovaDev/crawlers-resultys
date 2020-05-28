@@ -21,7 +21,7 @@ func New(IP string, proxy string, timeout int) *Client {
 }
 
 // Counter ...
-func (client *Client) Counter(nome string, telefone string) ([]Count, bool) {
+func (client *Client) Counter(nome string, telefone string) ([]Count, int, string) {
 	nome = encode.URL(nome)
 	telefone = encode.URL(telefone)
 
@@ -31,37 +31,32 @@ func (client *Client) Counter(nome string, telefone string) ([]Count, bool) {
 }
 
 // IsContador ...
-func (client *Client) IsContador(telefone string) (bool, bool) {
+func (client *Client) IsContador(telefone string) (bool, bool, string) {
 	telefone = encode.URL(telefone)
 	url := client.createURL("contador", str.Format("/verify?telefone={0}", telefone))
-	response, isBlock := request.Get(url, client.timeout+1)
-	if isBlock {
-		return false, true
+	proto := request.Get(url, client.timeout+1)
+
+	if proto.Code == 200 {
+		return proto.Data.(bool), false, ""
 	}
 
-	if response == nil {
-		return false, false
-	}
-
-	return response.(bool), isBlock
+	return false, true, proto.Message
 }
 
 // SearchTelefones pesquisa telefones na pagina principal do google
 // Retorna array de telefones e se ocorreu bloqueio
-func (client *Client) SearchTelefones(nome string, cidade string, cep string, language string) (arr []string, isBlock bool) {
+func (client *Client) SearchTelefones(nome string, cidade string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
-	cep = encode.URL(cep)
-	language = encode.URL(language)
 
-	url := client.createURL("search", str.Format("/phones?nome={0}&cidade={1}&cep={2}&language={3}", nome, cidade, cep, language))
+	url := client.createURL("search", str.Format("/phones?nome={0}&cidade={1}", nome, cidade))
 
 	return request.GetArrayString(url, client.timeout+1)
 }
 
 // SearchFacebook pesquisa todos os links do facebook na pagina principal do google
 // Return array string e se ocorreu bloqueio
-func (client *Client) SearchFacebook(nome string, cidade string) (arr []string, isBlock bool) {
+func (client *Client) SearchFacebook(nome string, cidade string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 
@@ -72,7 +67,7 @@ func (client *Client) SearchFacebook(nome string, cidade string) (arr []string, 
 
 // SearchTwitter pesquisa todos os links do twitter na pagina principal do google
 // Return array string e se ocorreu bloqueio
-func (client *Client) SearchTwitter(nome string, cidade string) (arr []string, isBlock bool) {
+func (client *Client) SearchTwitter(nome string, cidade string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 
@@ -83,7 +78,7 @@ func (client *Client) SearchTwitter(nome string, cidade string) (arr []string, i
 
 // SearchSite pesquisa todos os links do site na pagina principal do google
 // Return array string e se ocorreu bloqueio
-func (client *Client) SearchSite(nome string, cidade string) (arr []string, isBlock bool) {
+func (client *Client) SearchSite(nome string, cidade string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 
@@ -94,7 +89,7 @@ func (client *Client) SearchSite(nome string, cidade string) (arr []string, isBl
 
 // SearchLinkedin pesquisa todos os links do twitter na pagina principal do google
 // Return array string e se ocorreu bloqueio
-func (client *Client) SearchLinkedin(nome string, cidade string) (arr []string, isBlock bool) {
+func (client *Client) SearchLinkedin(nome string, cidade string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 

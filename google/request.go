@@ -19,25 +19,24 @@ type protocolCounter struct {
 	Message string  `json:"message"`
 }
 
-func getCounter(url string, timeout int) (counters []Count, isBlock bool) {
+func getCounter(url string, timeout int) (counters []Count, code int, message string) {
 	try.New().SetTentativas(3).Run(func() {
 		protocol := protocolCounter{}
+
 		err := request.New(url).SetTimeout(timeout).GetJSON(&protocol)
 		if err != nil {
-			isBlock = false
-			counters = nil
 			panic(err)
 		}
 
-		if protocol.Code == 101 {
-			isBlock = true
-			counters = nil
-			return
+		if protocol.Code == 200 {
+			counters = protocol.Data
 		}
 
-		isBlock = false
-		counters = protocol.Data
 	}).Catch(func(msg string) {
+		counters = nil
+		code = 500
+		message = msg
+
 		exception.Raise(msg, exception.WARNING)
 	})
 

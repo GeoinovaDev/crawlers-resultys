@@ -10,11 +10,14 @@ import (
 
 // GetArrayString executa um Get e retorna um array de string
 // Return array string e error
-func GetArrayString(url string, timeout int) (arr []string, isBlock bool) {
-	response, isBlock := Get(url, timeout)
+func GetArrayString(url string, timeout int) (arr []string, code int, message string) {
+	protocol := Get(url, timeout)
 
-	if response != nil {
-		arr = convert.ArrayInterfaceToArrayString(response.([]interface{}))
+	code = protocol.Code
+	message = protocol.Message
+
+	if protocol.Code == 200 {
+		arr = convert.ArrayInterfaceToArrayString(protocol.Data.([]interface{}))
 	}
 
 	return
@@ -22,26 +25,17 @@ func GetArrayString(url string, timeout int) (arr []string, isBlock bool) {
 
 // Get executa uma requisição get
 // Retorna um json ou nil
-func Get(url string, timeout int) (response interface{}, isBlock bool) {
+func Get(url string, timeout int) (proto net.Protocol) {
 	try.New().SetTentativas(3).Run(func() {
-		protocol := net.Protocol{}
-		err := request.New(url).GetJSON(&protocol)
+		err := request.New(url).GetJSON(&proto)
 		if err != nil {
-			isBlock = false
-			response = nil
 			panic(err)
 		}
+	}).Catch(func(message string) {
+		proto.Code = 500
+		proto.Message = message
 
-		if protocol.Code == 101 {
-			isBlock = true
-			response = nil
-			return
-		}
-
-		isBlock = false
-		response = protocol.Data
-	}).Catch(func(err string) {
-		exception.Raise(err, exception.WARNING)
+		exception.Raise(message, exception.WARNING)
 	})
 
 	return

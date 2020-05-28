@@ -18,7 +18,7 @@ func New(IP string) *Client {
 
 // SearchTelefones pesquisa telefones no guiamas
 // Retorna array de telefones e se ocorreu bloqueio
-func (client *Client) SearchTelefones(nome string, cidade string, estado string) (arr []string, isBlock bool) {
+func (client *Client) SearchTelefones(nome string, cidade string, estado string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 	estado = encode.URL(estado)

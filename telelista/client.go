@@ -18,7 +18,7 @@ func New(IP string) *Client {
 
 // SearchTelefones pesquisa telefones no telelista
 // Retorna array de telefones e se ocorreu bloqueio
-func (client *Client) SearchTelefones(nome string, estado string) (arr []string, isBlock bool) {
+func (client *Client) SearchTelefones(nome string, estado string) ([]string, int, string) {
 	nome = encode.URL(nome)
 	estado = encode.URL(estado)
 
