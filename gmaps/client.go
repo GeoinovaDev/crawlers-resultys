@@ -23,12 +23,12 @@ func New(IP string, proxy string, timeout int) *Client {
 }
 
 // Search ...
-func (c *Client) Search(nome string, cidade string) (gmaps.Company, int, string) {
+func (c *Client) Search(nome string, cidade string) ([]gmaps.Company, int, string) {
 	nome = encode.URL(nome)
 	cidade = encode.URL(cidade)
 
 	proto := Protocol{}
-	url := str.Format("http://{0}/google/gmaps/search?nome={1}&cidade={2}&proxy={3}&timeout={4}", c.IP, nome, cidade, c.proxy, strconv.Itoa(c.timeout))
+	url := str.Format("http://{0}/google/maps/search?nome={1}&cidade={2}&proxy={3}&timeout={4}", c.IP, nome, cidade, c.proxy, strconv.Itoa(c.timeout))
 	rq := request.New(url)
 	response, err := rq.Get()
 
@@ -36,9 +36,7 @@ func (c *Client) Search(nome string, cidade string) (gmaps.Company, int, string)
 		return proto.Data, 500, err.Error()
 	}
 
-	if proto.Code == 200 {
-		decode.JSON(response, &proto)
-	}
+	decode.JSON(response, &proto)
 
 	return proto.Data, proto.Code, ""
 }
