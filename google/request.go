@@ -23,15 +23,16 @@ func getCounter(url string, timeout int) (counters []Count, code int, message st
 	try.New().SetTentativas(3).Run(func() {
 		protocol := protocolCounter{}
 
+		println(url)
+
 		err := request.New(url).SetTimeout(timeout).GetJSON(&protocol)
 		if err != nil {
 			panic(err)
 		}
 
-		if protocol.Code == 200 {
-			counters = protocol.Data
-		}
-
+		code = protocol.Code
+		counters = protocol.Data
+		message = ""
 	}).Catch(func(msg string) {
 		counters = nil
 		code = 500
