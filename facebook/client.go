@@ -17,17 +17,17 @@ func New(ip string) *Client {
 }
 
 // GetDados busca informações na pagina da empresa no facebook
-func (client *Client) GetDados(url string) *facebook.Page {
+func (client *Client) GetDados(url string, proxy string) (*facebook.Page, int) {
 	page := &facebook.Page{}
 
-	proto := request.Get(client.createURL(url), 5)
+	proto := request.Get(client.createURL(url, proxy), 5)
 	if proto.Code == 200 {
 		page.PopuleFromMap(proto.Data.(map[string]interface{}))
 	}
 
-	return page
+	return page, proto.Code
 }
 
-func (client *Client) createURL(url string) string {
-	return str.Format("http://{0}/facebook/search?url={1}", client.IP, url)
+func (client *Client) createURL(url string, proxy string) string {
+	return str.Format("http://{0}/facebook/search?url={1}&proxy={2}", client.IP, url, proxy)
 }
