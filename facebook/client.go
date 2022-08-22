@@ -2,7 +2,7 @@ package facebook
 
 import (
 	"github.com/GeoinovaDev/lower-resultys/str"
-	"git.resultys.com.br/motor/models/facebook"
+	"github.com/GeoinovaDev/models-resultys/facebook"
 	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 )
 

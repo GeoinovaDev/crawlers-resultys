@@ -7,7 +7,7 @@ import (
 	"github.com/GeoinovaDev/lower-resultys/convert/encode"
 	"github.com/GeoinovaDev/lower-resultys/net/request"
 	"github.com/GeoinovaDev/lower-resultys/str"
-	"git.resultys.com.br/motor/models/gmaps"
+	"github.com/GeoinovaDev/models-resultys/gmaps"
 )
 
 // Client ...

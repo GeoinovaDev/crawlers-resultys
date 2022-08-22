@@ -1,6 +1,6 @@
 package gmaps
 
-import "git.resultys.com.br/motor/models/gmaps"
+import "github.com/GeoinovaDev/models-resultys/gmaps"
 
 // Protocol ...
 type Protocol struct {
