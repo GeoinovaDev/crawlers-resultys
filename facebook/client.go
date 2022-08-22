@@ -1,9 +1,9 @@
 package facebook
 
 import (
+	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 	"github.com/GeoinovaDev/lower-resultys/str"
 	"github.com/GeoinovaDev/models-resultys/facebook"
-	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 )
 
 // Client struct

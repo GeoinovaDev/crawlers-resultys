@@ -47,7 +47,7 @@ func (d *Document) AddEmail(email Email) {
 	d.Emails = append(d.Emails, email)
 }
 
-//SetID ...
+// SetID ...
 func (d *Document) SetID(handle string) {
 	if len(handle) == 14 {
 		d.ID = handle

@@ -1,11 +1,11 @@
 package request
 
 import (
+	"github.com/GeoinovaDev/crawlers-resultys/lib/convert"
 	"github.com/GeoinovaDev/lower-resultys/exception"
 	"github.com/GeoinovaDev/lower-resultys/exec/try"
 	"github.com/GeoinovaDev/lower-resultys/net"
 	"github.com/GeoinovaDev/lower-resultys/net/request"
-	"github.com/GeoinovaDev/crawlers-resultys/lib/convert"
 )
 
 // GetArrayString executa um Get e retorna um array de string

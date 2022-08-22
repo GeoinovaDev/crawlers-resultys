@@ -1,9 +1,9 @@
 package apontador
 
 import (
+	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 	"github.com/GeoinovaDev/lower-resultys/convert/encode"
 	"github.com/GeoinovaDev/lower-resultys/str"
-	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 )
 
 // Client struct
