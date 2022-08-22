@@ -1,9 +1,9 @@
 package telelista
 
 import (
-	"git.resultys.com.br/lib/lower/convert/encode"
-	"git.resultys.com.br/lib/lower/str"
-	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
+	"github.com/GeoinovaDev/lower-resultys/convert/encode"
+	"github.com/GeoinovaDev/lower-resultys/str"
+	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 )
 
 // Client struct

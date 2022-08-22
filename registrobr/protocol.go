@@ -1,7 +1,7 @@
 package registrobr
 
 import (
-	"git.resultys.com.br/sdk/crawlers-golang/registrobr/document"
+	"github.com/GeoinovaDev/crawlers-resultys/registrobr/document"
 )
 
 // Protocol ...

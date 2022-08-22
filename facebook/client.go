@@ -1,9 +1,9 @@
 package facebook
 
 import (
-	"git.resultys.com.br/lib/lower/str"
+	"github.com/GeoinovaDev/lower-resultys/str"
 	"git.resultys.com.br/motor/models/facebook"
-	"git.resultys.com.br/sdk/crawlers-golang/lib/request"
+	"github.com/GeoinovaDev/crawlers-resultys/lib/request"
 )
 
 // Client struct

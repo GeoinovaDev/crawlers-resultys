@@ -1,9 +1,9 @@
 package google
 
 import (
-	"git.resultys.com.br/lib/lower/exception"
-	"git.resultys.com.br/lib/lower/exec/try"
-	"git.resultys.com.br/lib/lower/net/request"
+	"github.com/GeoinovaDev/lower-resultys/exception"
+	"github.com/GeoinovaDev/lower-resultys/exec/try"
+	"github.com/GeoinovaDev/lower-resultys/net/request"
 )
 
 // Count ...

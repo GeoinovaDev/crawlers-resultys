@@ -1,11 +1,11 @@
 package request
 
 import (
-	"git.resultys.com.br/lib/lower/exception"
-	"git.resultys.com.br/lib/lower/exec/try"
-	"git.resultys.com.br/lib/lower/net"
-	"git.resultys.com.br/lib/lower/net/request"
-	"git.resultys.com.br/sdk/crawlers-golang/lib/convert"
+	"github.com/GeoinovaDev/lower-resultys/exception"
+	"github.com/GeoinovaDev/lower-resultys/exec/try"
+	"github.com/GeoinovaDev/lower-resultys/net"
+	"github.com/GeoinovaDev/lower-resultys/net/request"
+	"github.com/GeoinovaDev/crawlers-resultys/lib/convert"
 )
 
 // GetArrayString executa um Get e retorna um array de string
